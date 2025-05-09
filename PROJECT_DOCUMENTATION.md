@@ -186,4 +186,20 @@
     BLACKJACK
     First, place your bets. You will be given 2 cards. You will also see one of the dealers cards. You can hit or stand. By hitting, you will be given another card, where you are allowed to pick hit/stand again. After both players (User and Dealer) have chosen stand, the winner will be calculated with the person who has the highers number of cards that done exceed 21. If the user gets 21, they win by default. By standing, the "Dealer" will show his cards. If it is 17 or higher, the dealer will stand. Otherwise, they will continue to hit until they get to 17 or higher. 
 
-**Postconditions:** 
+**Postconditions:** I WILL DO LATER
+
+### Use Case Diagram
+
+
+
+<br />
+
+### Design
+---
+**Data Flow Diagram** \
+*Level 0*
+
+![image](Diagrams/DataFlowDiagramLv0.png)
+
+*Level 1*
+
