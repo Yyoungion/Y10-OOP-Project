@@ -50,3 +50,6 @@ Ice_Shard = Grimoire("Ice Shard", 40)
 Fireball_Spell = Spell_Attack("Fireball", 50, 20)
 Lightning_Spell = Spell_Attack("Lightning", 70, 30)
 Ice_Shard_Spell = Spell_Attack("Ice Shard", 90, 40)
+
+
+#shop creation

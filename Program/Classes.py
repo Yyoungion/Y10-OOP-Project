@@ -53,7 +53,6 @@ class Player:
     def set_inventory(self, inventory):
         self.inventory = inventory
 
-
 class Weapon:
     def __init__(self, name, attack, cost, level_requirement):
         self.name = name
@@ -93,7 +92,7 @@ class Potion:
         self.cost = cost
 
     def __str__(self):
-        return f"Type: {self.type}, Health: {self.health}, Mana: {self.mana}, Cost: {self.cost}"
+        return f"Type: {self.type}, Health Regenerated: {self.health}, Mana Regenerated: {self.mana}, Cost: {self.cost}"
 
 class Grimoire:
     def __init__(self, spell, cost):
@@ -112,15 +111,6 @@ class Spell_Attack:
     def __str__(self):
         return f"Name: {self.name}, Damage: {self.damage}, Mana Cost: {self.mana_cost}"
 
-class Spell_Defense:
-    def __init__(self, name, resistance, mana_cost):
-        self.name = name
-        self.resistance = resistance
-        self.mana_cost = mana_cost
-
-    def __str__(self):
-        return f"Name: {self.name}, Resistance: {self.resistance}, Mana Cost: {self.mana_cost}"
-
 class Cards:
     def __init__(self, number, suit):
         self.number = number
@@ -128,3 +118,6 @@ class Cards:
 
     def __str__(self):
         return f"Number: {self.number}, Suit: {self.suit}"
+    
+
+        
