@@ -14,7 +14,6 @@ shop_inventory = [
     Weapon("Enchanted Sword", 45, 100, 7),  
     Weapon("Enchanted Lance", 60, 120, 7),
     Weapon("Enchanted Spear", 75, 150, 10),
-    Weapon("The Big Daddy", 10000000000, 0, 0),
     Armor("Leather Armor", 5, 10),  
     Armor("Chainmail Armor", 15, 20),   
     Armor("Iron Armor", 25, 30),    
@@ -23,8 +22,7 @@ shop_inventory = [
     Armor("Enchanted Iron Armor", 70, 90),
     Armor("Enchanted Gold Armor", 100, 110),
     Potion("Health Potion", 20, 0, 10),
-    Potion("Mana Potion", 0, 20, 10),
-    Potion("Elixir", 50, 50, 20),]
+    Potion("Mana Potion", 0, 20, 10),]
 
 # Initialize the player's inventory
 player_inventory = []

@@ -122,9 +122,13 @@
 
 <br />
 
-**Actor:** User 
+**Actor** 
+    
+    User 
 
-**Preconditions:** Installed Requirements.txt; Access to a keyboard; Has run/started the program
+**Preconditions** 
+    
+    Installed Requirements.txt; Access to a keyboard; Has run/started the program
 
 **Main Flow:** 
 
@@ -136,11 +140,13 @@
 
     Combat
 
+    ALL COMBAT WILL BE 1V1
+
     DETERMINING INITIATIVE
     It user selects choice that results in combat: A dice is rolled (1-10)  to determine initiative. If the rolls are the same, it is rerolled. 
 
     PRE-ACTION
-    On the user's turn, they are first given the option to use a pre-action. This can be things like using potions such as healing or mana regen or applying buffs like strength, resistance or priority. 
+    On the user's turn, they are first given the option to use a pre-action. This can be things like using potions such as healing or mana regen or applying buffs like strength or  resistance. 
 
     ACTION
     Then they are given the ability to use a action. Actions are attacks such as magic, melee or ranged. This repeats until either the user or the opponent dies. 
@@ -186,20 +192,49 @@
     BLACKJACK
     First, place your bets. You will be given 2 cards. You will also see one of the dealers cards. You can hit or stand. By hitting, you will be given another card, where you are allowed to pick hit/stand again. After both players (User and Dealer) have chosen stand, the winner will be calculated with the person who has the highers number of cards that done exceed 21. If the user gets 21, they win by default. By standing, the "Dealer" will show his cards. If it is 17 or higher, the dealer will stand. Otherwise, they will continue to hit until they get to 17 or higher. 
 
-**Postconditions:** I WILL DO LATER
+**Postconditions**
+
+    CHOICE SELECTION
+    After choice selection (where the user picks what path they want to choose), the system will progress the game, based on their selected choice and they can lead to different paths based on their choices.
+
+<br />
+
+    COMBAT
+    After combat is finished, the user will be able to view drops from the dead opponent. Then they will be given CHOICE SELECTION and be able to progress through the game
+
+<br />
+
+    REST
+    After rest, the player is given CHOICES. They can go shop, exit the village or gamble.
+
+<br />
+
+    SHOP
+    After purchasing, the player is given CHOICES. They can go exit the village, rest or gamble
+
+<br />
+
+    GAMBLE
+    After the user has lost all their money, they will be forcefully escorted out. They will be given the CHOICES to exit the village, rest or shop.
+
+<br />
 
 ### Use Case Diagram
-
-
+---
+<img src="Diagrams/UseCaseDiagram.png" alt="image" width="400"/>
 
 <br />
 
 ### Design
 ---
+
+**Storyboards**
+
+
 **Data Flow Diagram** \
 *Level 0*
 
-![image](Diagrams/DataFlowDiagramLv0.png)
+<img src="Diagrams/DataFlowDiagramLv0.png" alt="image" width="300"/>
 
 *Level 1*
 

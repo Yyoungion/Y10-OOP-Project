@@ -1,7 +1,7 @@
 from Classes import *
 
 #Player Creation
-Player1 = Player("Jimmy", 100, 20, 10, 50, 1, [])
+Player1 = Player("Jimmy", 100, 20, 10, 50, 1, [], 100)
 
 #Weapon Creation
 Fragile_Stick = Weapon("Fragile Stick", 1, 0, 0)
@@ -29,7 +29,6 @@ Pillow = Armor("Pillow", 10000000000, 0)
 #Potion Creation
 Health_Potion = Potion("Health Potion", 20, 0, 10)
 Mana_Potion = Potion("Mana Potion", 0, 20, 10)
-Elixir = Potion("Elixir", 50, 50, 20)
 
 #Enemy Creation
 Goblin = Enemy("Goblin", 20, 5, 2, 1, [Fragile_Stick, Dull_Sword, Health_Potion], 20)

@@ -1,5 +1,5 @@
 class Player:
-    def __init__(self, name, health, attack, defense, mana, level, inventory):  # Fixed typo here
+    def __init__(self, name, health, attack, defense, mana, level, inventory, gold):  # Fixed typo here
         self.name = name
         self.health = health
         self.attack = attack
@@ -7,6 +7,7 @@ class Player:
         self.mana = mana
         self.level = level
         self.inventory = inventory
+        self.gold = gold
 
     def __str__(self):
         return f"Name: {self.name}, Health: {self.health}, Attack: {self.attack}, Defense: {self.defense}, Mana: {self.mana}, Level: {self.level}"
@@ -52,6 +53,12 @@ class Player:
     
     def set_inventory(self, inventory):
         self.inventory = inventory
+        
+    def get_gold(self):
+        return self.gold
+    
+    def set_gold(self, gold):
+        self.gold = gold
 
 class Weapon:
     def __init__(self, name, attack, cost, level_requirement):
