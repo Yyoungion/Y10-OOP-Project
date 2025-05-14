@@ -228,8 +228,27 @@
 ### Design
 ---
 
-**Storyboards**
+**Storyboards** \
 
+As by program will be mostly text based, I will make the story board text based without using things like canva.
+
+    MAIN STORY
+    You have now entered the forest as you wander...
+
+    You can: 
+    1: .... 
+    2: .... 
+    3: .... 
+    4: .... 
+
+    Please Input Your Choice: 
+
+<br />
+
+    COMBAT
+    What do you want to do?
+
+    1. 
 
 **Data Flow Diagram** \
 *Level 0*

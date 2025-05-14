@@ -10,7 +10,7 @@ class Player:
         self.gold = gold
 
     def __str__(self):
-        return f"Name: {self.name}, Health: {self.health}, Attack: {self.attack}, Defense: {self.defense}, Mana: {self.mana}, Level: {self.level}"
+        return f"Name: {self.name}  Health: {self.health}   Attack: {self.attack}   Defense: {self.defense} Mana: {self.mana}   Level: {self.level}"
 
     def get_name(self):
         return self.name
@@ -68,7 +68,9 @@ class Weapon:
         self.level_requirement = level_requirement
 
     def __str__(self):
-        return f"Name: {self.name}, Attack: {self.attack}, Cost: {self.cost}, Level Requirement: {self.level_requirement}"
+        return f"Name: {self.name}  Attack: {self.attack}   Cost: {self.cost}   Level Requirement: {self.level_requirement}"
+    
+    
 
 class Armor:
     def __init__(self, name, defense, cost):
@@ -77,7 +79,7 @@ class Armor:
         self.cost = cost
 
     def __str__(self):
-        return f"Name: {self.name}, Defense: {self.defense}, Cost: {self.cost}"
+        return f"Name: {self.name}  Defense: {self.defense} Cost: {self.cost}"
 
 class Enemy:
     def __init__(self, race, health, attack, defense, level, loot, loot_percentage):
@@ -88,8 +90,9 @@ class Enemy:
         self.level = level
         self.loot = loot   
         self.loot_percentage = loot_percentage
+        
     def __str__(self):
-        return f"race{self.race}, health: {self.health}, attack: {self.attack}, defense: {self.defense}, level: {self.level}, loot: {self.loot}, loot_percentage: {self.loot_percentage}"
+        return f"Race{self.race}    Health: {self.health}   Attack: {self.attack}   Defense: {self.defense} Level: {self.level} Loot: {self.loot}   Loot_percentage: {self.loot_percentage}"
 
 class Potion:
     def __init__(self, type, health, mana, cost):
@@ -99,7 +102,7 @@ class Potion:
         self.cost = cost
 
     def __str__(self):
-        return f"Type: {self.type}, Health Regenerated: {self.health}, Mana Regenerated: {self.mana}, Cost: {self.cost}"
+        return f"Type: {self.type}  Health Regenerated: {self.health}   Mana Regenerated: {self.mana}   Cost: {self.cost}"
 
 class Grimoire:
     def __init__(self, spell, cost):
@@ -107,7 +110,7 @@ class Grimoire:
         self.cost = cost
     
     def __str__(self):
-        return f"Spell: {self.spell}, Cost: {self.cost}"
+        return f"Spell: {self.spell}    Cost: {self.cost}"
 
 class Spell_Attack:
     def __init__(self, name, damage, mana_cost):
@@ -116,7 +119,7 @@ class Spell_Attack:
         self.mana_cost = mana_cost
 
     def __str__(self):
-        return f"Name: {self.name}, Damage: {self.damage}, Mana Cost: {self.mana_cost}"
+        return f"Name: {self.name}  Damage: {self.damage}   Mana Cost: {self.mana_cost}"
 
 class Cards:
     def __init__(self, number, suit):
@@ -124,7 +127,7 @@ class Cards:
         self.suit = suit
 
     def __str__(self):
-        return f"Number: {self.number}, Suit: {self.suit}"
+        return f"Number: {self.number}  Suit: {self.suit}"
     
 
         
