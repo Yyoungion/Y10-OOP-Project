@@ -228,7 +228,7 @@
 ### Design
 ---
 
-**Storyboards** \
+**Storyboards** 
 
 As by program will be mostly text based, I will make the story board text based without using things like canva.
 
@@ -246,14 +246,211 @@ As by program will be mostly text based, I will make the story board text based 
 <br />
 
     COMBAT
-    What do you want to do?
+    YOU ARE THE FIRST TO MOVE
 
-    1. 
+    What do you want to do?       
+    ---------------------------------------
+    Player 1
+    Health❤️:[██████████](100/100)  
+    Mana✨:[██████████](50/50)
+    Attack🗡️: 12 
+    Defence🛡️: 6
+    ---------------------------------------
+    Goblin
+    Health❤️:[██████████](100/100)  
+    Mana✨:[██████████](0/0)
+    Attack🗡️: 6
+    Defence🛡️: 1
+    ----------------------------------------
+
+    Choose your action:
+    1. Attack 
+    2. Cast Spell
+    3. Use Item
+    4. Attempt Escape
+
+    Enter the number of your choice:
+    
 
 **Data Flow Diagram** \
 *Level 0*
 
-<img src="Diagrams/DataFlowDiagramLv0.png" alt="image" width="300"/>
+<img src="Diagrams/DataFlowDiagramLv0.png" alt="image" width="300"/> 
+
+<br />
 
 *Level 1*
+
+<img src="Diagrams/DataFlowDiagramLv1.png" alt="image" width="500"/> 
+
+**Gantt Chart**
+
+<img src="Diagrams/GanttChart.png" alt="image" width="700"/> 
+
+### Build & Test
+**main.py**
+```
+import pyfiglet #pip install pyfiglet
+import UserInterface as UI
+import Storyline as Storyline
+
+# Player stats
+player_name = "Hero"
+player_type = "Warrior"
+player_health = 18
+player_max_health = 100
+player_mana = 50
+player_max_mana = 50
+player_damage = 20
+player_defence = 5
+
+
+
+def main():
+    UI.DisplayTitleScreen()
+    UI.DisplaySeparator()
+    print("=======================================")
+    print("Player Stats")
+    print("=======================================")
+    print()
+    UI.DisplayStats(player_name, player_type, player_health, player_max_health, player_mana, player_max_mana, player_damage, player_defence)
+    input("Press Enter to continue...")
+    Storyline.Storyline()
+
+
+main()
+```
+
+**Storyline.py**
+```
+import UserInterface as UI
+
+def Storyline():
+    UI.DisplayScene("The Village of Eldoria", """You wake up to find your home burning in the sunlight and a loud roar in the distance. 
+You run outside to see your whole village ravaged by fire and a large winged beast flying away. 
+You try to find your family but your efforts are worthless as you find out from the town mayor. 
+Your Mother and Sister were trapped under a burning pile of wood and were burnt. 
+You ask the mayor about your father and the mayor lowers his head. 
+In a weak voice he says your father couldn't deal with the news of your mother and sister and has run away leaving you and the rest of the town. 
+More Buildings collapse as you stand there sobbing but action for your survival must be done. 
+Rocks are falling around you.""", 
+    {
+        "Run to the forest": choice1,
+        "Climb a tree": choice2,
+        "Hide in a cave": choice3
+    })
+    
+def choice1():
+    UI.DisplayScene("The Forest", """You run into the forest and find a small cave.
+You hide in the cave and wait for the danger to pass.
+After a while, you hear the sound of footsteps approaching.
+You hold your breath and try to stay quiet.
+Suddenly, a group of bandits enters the cave.
+They look around and spot you hiding in the corner.
+They draw their weapons and approach you.""", exit)
+    
+def choice2():
+    UI.DisplayScene("The Tree", """You climb up the tree and find a branch to sit on.
+You look around and see the village burning below you.
+You see the dragon flying away in the distance.
+You take a deep breath and try to calm down.
+Suddenly, you hear a loud crack.
+The branch you are sitting on is breaking!""", exit)
+    
+def choice3():
+    UI.DisplayScene("The Cave", """You hide in the cave and wait for the danger to pass.
+You hear the sound of footsteps approaching.
+You hold your breath and try to stay quiet.
+Suddenly, a group of bandits enters the cave.
+They look around and spot you hiding in the corner.
+They draw their weapons and approach you.
+You have to think fast!""", exit)
+```
+
+**UserInterface.py**
+```
+import pyfiglet
+
+def DisplayTitleScreen():
+    print(pyfiglet.figlet_format("Beyond the Horizon"))
+
+def DisplaySeparator():
+    print("+"+"-"*78+"+")
+
+def DisplayTitle(title):
+    DisplaySeparator()
+    print(f"| {title:76} |")
+    DisplaySeparator()
+
+def DisplaySubTitle(title):
+    print(f"| {title:76} |")
+    DisplaySeparator()
+
+def SelectAction(actions):
+    while(True):
+        DisplaySeparator()
+        index=1
+        options=list(actions.keys())
+        for option in options:
+            print(index,"-",option)
+            index+=1
+        try:
+            option_index = int(input("Selection: "))
+            print("You have selected:#", option_index)
+            DisplaySeparator()
+            action=options[option_index-1]
+            print("You have selected:", action)
+            actions[action]()
+            return
+        except:
+
+            exit()
+
+def DisplayDialog(title, description):
+    DisplayTitle(title)
+    print(description)
+
+def DisplayScene(title, story, actions):
+    DisplayDialog(title, story)
+    selection=SelectAction(actions)
+
+def DisplaySceneWithEvent(title, pre_description, event, post_description, actions):
+    DisplayDialog(title,pre_description)
+    event()
+    DisplayDialog(title,post_description)
+    selection=SelectAction(actions)
+
+def DisplayStats(name, type, health, max_health, mana, max_mana, damage, defence):
+    print(f"| Name: {name} |")
+    print(f"| Type: {type} |")
+    bar_count=int(health*10/max_health)
+    bars="█"*bar_count
+    dashes="█"*(10-bar_count)
+    print(f"| Health❤️ : [\033[31m{bars}█\033[0m{dashes}]({health}/{max_health})|")
+    bar_count=int(mana*10/max_mana)
+    bars="█"*bar_count
+    dashes="█"*(10-bar_count)
+    print(f"| Mana✨ : [\033[94m{bars}█\033[0m{dashes}]({mana}/{max_mana})|")
+    print(f"| Damage🗡️ : {damage} |")
+    print(f"| Defence🛡️ : {defence} |")
+    print("=======================================")
+
+def DisplayInventory(inventory):
+    print("=======================================")
+    print("Inventory")
+    print("=======================================")
+    for item in inventory:
+        print(f"| {item} |")
+    print("=======================================")
+
+def DisplayGameOver():
+    print("=======================================")
+    print("Game Over")
+    print("=======================================")
+    print("You have died. Please restart the game.")
+    print("=======================================")
+    print("Thank you for playing Beyond the Horizon!")
+    print("=======================================")
+
+```
 
