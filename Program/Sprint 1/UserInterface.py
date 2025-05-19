@@ -52,14 +52,44 @@ def DisplaySceneWithEvent(title, pre_description, event, post_description, actio
 def DisplayStats(name, type, health, max_health, mana, max_mana, damage, defence):
     print(f"| Name: {name} |")
     print(f"| Type: {type} |")
-    bar_count=int(health*10/max_health)
-    bars="█"*bar_count
-    dashes="█"*(10-bar_count)
-    print(f"| Health❤️ : [\033[31m{bars}█\033[0m{dashes}]({health}/{max_health})|")
-    bar_count=int(mana*10/max_mana)
-    bars="█"*bar_count
-    dashes="█"*(10-bar_count)
-    print(f"| Mana✨ : [\033[94m{bars}█\033[0m{dashes}]({mana}/{max_mana})|")
+    if health > max_health:
+        bonus_health = health - max_health
+        health = max_health
+    else:
+        bonus_health = 0
+
+    bar_count = int(health * 10 / max_health)
+    bars = "█" * bar_count
+    dashes = "█" * (10 - bar_count)
+    health_bar = f"\033[31m{bars}\033[0m{dashes}"
+
+    if bonus_health > 0:
+        bonus_bar_count = int(bonus_health * 10 / max_health)
+        bonus_bars = "\033[33m" + "█" * bonus_bar_count + "\033[0m"
+        health_bar += bonus_bars
+        print(f"| Health❤️ : [{health_bar}]({health + bonus_health}/{max_health})|")
+    else:
+        print(f"| Health❤️ : [{health_bar}]({health}/{max_health})|")
+
+    if mana > max_mana:
+        bonus_mana = mana - max_mana
+        mana = max_mana
+    else:
+        bonus_mana = 0
+
+    bar_count = int(mana * 10 / max_mana)
+    bars = "█" * bar_count
+    dashes = "█" * (10 - bar_count)
+    mana_bar = f"\033[94m{bars}\033[0m{dashes}"
+
+    if bonus_mana > 0:
+        bonus_bar_count = int(bonus_mana * 10 / max_mana)
+        bonus_bars = "\033[96m" + "█" * bonus_bar_count + "\033[0m"
+        mana_bar += bonus_bars
+        print(f"| Mana✨ : [{mana_bar}]({mana + bonus_mana}/{max_mana})|")
+    else:
+        print(f"| Mana✨ : [{mana_bar}]({mana}/{max_mana})|")
+        
     print(f"| Damage🗡️ : {damage} |")
     print(f"| Defence🛡️ : {defence} |")
     print("=======================================")
