@@ -290,7 +290,6 @@ As by program will be mostly text based, I will make the story board text based 
 ### Build & Test
 **main.py**
 ```
-import pyfiglet #pip install pyfiglet
 import UserInterface as UI
 import Storyline as Storyline
 
@@ -306,6 +305,7 @@ player_defence = 5
 
 
 
+
 def main():
     UI.DisplayTitleScreen()
     UI.DisplaySeparator()
@@ -318,7 +318,7 @@ def main():
     Storyline.Storyline()
 
 
-main()
+main()    
 ```
 
 **Storyline.py**
@@ -365,6 +365,7 @@ Suddenly, a group of bandits enters the cave.
 They look around and spot you hiding in the corner.
 They draw their weapons and approach you.
 You have to think fast!""", exit)
+
 ```
 
 **UserInterface.py**
@@ -390,20 +391,34 @@ def SelectAction(actions):
     while(True):
         DisplaySeparator()
         index=1
-        options=list(actions.keys())
+        if isinstance(actions, dict):
+            options = list(actions.keys())
+
+        elif isinstance(actions, list):
+            options = actions
+
+        else:
+            return
+        
         for option in options:
             print(index,"-",option)
             index+=1
+
         try:
-            option_index = int(input("Selection: "))
+            option_input = input("Selection: ")
+            option_index = int(option_input)
+            if option_index < 1 or option_index > len(options):
+                print("Invalid selection. Please enter a number between 1 and", len(options))
+                continue
             print("You have selected:#", option_index)
             DisplaySeparator()
             action=options[option_index-1]
             print("You have selected:", action)
             actions[action]()
             return
-        except:
-
+        
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
             exit()
 
 def DisplayDialog(title, description):
@@ -423,14 +438,44 @@ def DisplaySceneWithEvent(title, pre_description, event, post_description, actio
 def DisplayStats(name, type, health, max_health, mana, max_mana, damage, defence):
     print(f"| Name: {name} |")
     print(f"| Type: {type} |")
-    bar_count=int(health*10/max_health)
-    bars="█"*bar_count
-    dashes="█"*(10-bar_count)
-    print(f"| Health❤️ : [\033[31m{bars}█\033[0m{dashes}]({health}/{max_health})|")
-    bar_count=int(mana*10/max_mana)
-    bars="█"*bar_count
-    dashes="█"*(10-bar_count)
-    print(f"| Mana✨ : [\033[94m{bars}█\033[0m{dashes}]({mana}/{max_mana})|")
+    if health > max_health:
+        bonus_health = health - max_health
+        health = max_health
+    else:
+        bonus_health = 0
+
+    bar_count = int(health * 10 / max_health)
+    bars = "█" * bar_count
+    dashes = "█" * (10 - bar_count)
+    health_bar = f"\033[31m{bars}\033[0m{dashes}"
+
+    if bonus_health > 0:
+        bonus_bar_count = int(bonus_health * 10 / max_health)
+        bonus_bars = "\033[33m" + "█" * bonus_bar_count + "\033[0m"
+        health_bar += bonus_bars
+        print(f"| Health❤️ : [{health_bar}]({health + bonus_health}/{max_health})|")
+    else:
+        print(f"| Health❤️ : [{health_bar}]({health}/{max_health})|")
+
+    if mana > max_mana:
+        bonus_mana = mana - max_mana
+        mana = max_mana
+    else:
+        bonus_mana = 0
+
+    bar_count = int(mana * 10 / max_mana)
+    bars = "█" * bar_count
+    dashes = "█" * (10 - bar_count)
+    mana_bar = f"\033[94m{bars}\033[0m{dashes}"
+
+    if bonus_mana > 0:
+        bonus_bar_count = int(bonus_mana * 10 / max_mana)
+        bonus_bars = "\033[96m" + "█" * bonus_bar_count + "\033[0m"
+        mana_bar += bonus_bars
+        print(f"| Mana✨ : [{mana_bar}]({mana + bonus_mana}/{max_mana})|")
+    else:
+        print(f"| Mana✨ : [{mana_bar}]({mana}/{max_mana})|")
+        
     print(f"| Damage🗡️ : {damage} |")
     print(f"| Defence🛡️ : {defence} |")
     print("=======================================")
@@ -454,3 +499,11 @@ def DisplayGameOver():
 
 ```
 
+### Review
+The prototype for sprint 1 is able to many of the things specified in me functional and non-functional requirements. The user is able to view text telling them what is happening as well as be able to view their stats. Inventory and combat is still needed to be implemented. The system is able to prompt users using 1, 2, 3 etc. The user is also able to select an option, which brings them a different area of the game. The user is also able to know what happened in accordence to their choices. *Combat is still yet to be implemented*. The system is also able to run smoothly with no lag at all. The system is able to handle errors such as misinputs. It is also easy to read.
+
+The user is prompted with a choice for each scenario. Each scenario will bring the user to a different location. Other parts of the use case has not been implemented. 
+
+I believe the current program is well organised with each action defined into different functions.
+
+I will need to add inventory, as well as implement a basic combat system. The code quality is pretty good and I can not think of ways I can majorly improve on it.

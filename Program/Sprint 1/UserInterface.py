@@ -8,7 +8,7 @@ def DisplaySeparator():
 
 def DisplayTitle(title):
     DisplaySeparator()
-    print(f"| {title:76} |")
+    print(f"| {title.center(76)} |")
     DisplaySeparator()
 
 def DisplaySubTitle(title):
@@ -19,20 +19,34 @@ def SelectAction(actions):
     while(True):
         DisplaySeparator()
         index=1
-        options=list(actions.keys())
+        if isinstance(actions, dict):
+            options = list(actions.keys())
+
+        elif isinstance(actions, list):
+            options = actions
+
+        else:
+            return
+        
         for option in options:
             print(index,"-",option)
             index+=1
+
         try:
-            option_index = int(input("Selection: "))
-            print("You have selected:#", option_index)
+            option_input = input("Selection: ")
+            option_index = int(option_input)
+            if option_index < 1 or option_index > len(options):
+                print("Invalid selection. Please enter a number between 1 and", len(options))
+                continue
+            print("You have selected:", option_index)
             DisplaySeparator()
             action=options[option_index-1]
             print("You have selected:", action)
             actions[action]()
             return
-        except:
-
+        
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
             exit()
 
 def DisplayDialog(title, description):
