@@ -321,6 +321,8 @@ def main():
 main()    
 ```
 
+<br />
+
 **Storyline.py**
 ```
 import UserInterface as UI
@@ -367,6 +369,8 @@ They draw their weapons and approach you.
 You have to think fast!""", exit)
 
 ```
+
+<br />
 
 **UserInterface.py**
 ```
@@ -507,3 +511,44 @@ The user is prompted with a choice for each scenario. Each scenario will bring t
 I believe the current program is well organised with each action defined into different functions.
 
 I will need to add inventory, as well as implement a basic combat system. The code quality is pretty good and I can not think of ways I can majorly improve on it.
+
+<br />
+
+### Launch
+
+**README.md**
+
+    PROJECT Beyond the Horizon
+
+    Overview
+
+    Follow the instructions below to set up and run the software.
+
+    Prerequisites
+
+    - Python 3.10 or higher installed
+    - Git (optional, for cloning the repository)
+
+    Setup Instructions
+
+    1. Install Dependencies
+        In a new terminal (Control + Shift + `) paste in:
+
+        ```bash
+        pip install -r requirements.txt
+        ```
+
+    2. Run the Program
+        ```bash
+        main.py
+        ```
+
+    Notes
+
+    - Ensure all required files are in the same directory.
+    - For any issues, refer to the project documentation or contact me at Yi.du8@education.nsw.gov.au
+
+**requirements.txt**
+
+    pyfiglet
+
