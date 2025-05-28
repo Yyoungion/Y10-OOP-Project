@@ -66,6 +66,7 @@ def DisplaySceneWithEvent(title, pre_description, event, post_description, actio
 def DisplayStats(name, type, health, max_health, mana, max_mana, damage, defence):
     print(f"| Name: {name} |")
     print(f"| Type: {type} |")
+    
     if health > max_health:
         bonus_health = health - max_health
         health = max_health
@@ -100,9 +101,9 @@ def DisplayStats(name, type, health, max_health, mana, max_mana, damage, defence
         bonus_bar_count = int(bonus_mana * 10 / max_mana)
         bonus_bars = "\033[96m" + "█" * bonus_bar_count + "\033[0m"
         mana_bar += bonus_bars
-        print(f"| Mana✨ : [{mana_bar}]({mana + bonus_mana}/{max_mana})|")
+        print(f"| Mana ✨: [{mana_bar}]({mana + bonus_mana}/{max_mana})|")
     else:
-        print(f"| Mana✨ : [{mana_bar}]({mana}/{max_mana})|")
+        print(f"| Mana ✨ : [{mana_bar}]({mana}/{max_mana})|")
         
     print(f"| Damage🗡️ : {damage} |")
     print(f"| Defence🛡️ : {defence} |")

@@ -288,6 +288,8 @@ As by program will be mostly text based, I will make the story board text based 
 <img src="Diagrams/GanttChart.png" alt="image" width="700"/> 
 
 ### Build & Test
+---
+
 **main.py**
 ```
 import UserInterface as UI
@@ -504,6 +506,7 @@ def DisplayGameOver():
 ```
 
 ### Review
+---
 The prototype for sprint 1 is able to many of the things specified in me functional and non-functional requirements. The user is able to view text telling them what is happening as well as be able to view their stats. Inventory and combat is still needed to be implemented. The system is able to prompt users using 1, 2, 3 etc. The user is also able to select an option, which brings them a different area of the game. The user is also able to know what happened in accordence to their choices. *Combat is still yet to be implemented*. The system is also able to run smoothly with no lag at all. The system is able to handle errors such as misinputs. It is also easy to read.
 
 The user is prompted with a choice for each scenario. Each scenario will bring the user to a different location. Other parts of the use case has not been implemented. 
@@ -515,6 +518,7 @@ I will need to add inventory, as well as implement a basic combat system. The co
 <br />
 
 ### Launch
+---
 
 **README.md**
 
@@ -534,21 +538,27 @@ I will need to add inventory, as well as implement a basic combat system. The co
     1. Install Dependencies
         In a new terminal (Control + Shift + `) paste in:
 
-        ```bash
-        pip install -r requirements.txt
-        ```
+        "pip install -r requirements.txt"
 
     2. Run the Program
-        ```bash
-        main.py
-        ```
+
+        
+        "main.py"
 
     Notes
 
     - Ensure all required files are in the same directory.
-    - For any issues, refer to the project documentation or contact me at Yi.du8@education.nsw.gov.au
 
 **requirements.txt**
 
     pyfiglet
 
+
+## Sprint 2
+---
+<br />
+
+### Design
+---
+
+**Structure Chart**
