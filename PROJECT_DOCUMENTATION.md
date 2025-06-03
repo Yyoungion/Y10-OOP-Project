@@ -561,4 +561,105 @@ I will need to add inventory, as well as implement a basic combat system. The co
 ### Design
 ---
 
-**Structure Chart**
+**Structure Chart** \
+<img src="Diagrams/StructureChart.png" alt="image" width="600"/>
+
+<br />
+
+**Algorithms (Flowchart)**
+
+<br />
+
+*Mainline routine* \
+<img src="Diagrams/FlowChart - Mainline.png" alt="image" width="600"/>
+
+*Subroutine: DisplayTitleScreen* \
+<img src="Diagrams/FlowChart - SubroutineDisplayTitleScreen.png" alt="image" width="300"/>
+
+*Subroutine: DisplayStats* \
+<img src="Diagrams/FlowChart - SubroutineDisplayStats.png" alt="image" width="500"/>
+
+<br />
+
+**Algorithms (Pseudocode)**
+
+<br />
+
+*Mainline Routine*
+```
+START
+    player_name = "Player1
+    player_type = "Warrior"
+    player_health = 100
+    player_max_health = 100
+    player_mana = 50
+    player_max_mana = 50
+    player_damage = 
+    player_defence = 5
+
+    DisplayTitleScreen(player_name, player_type, player_health, player_max_health, player_mana, player_max_mana, player_damage, player_defence)
+    DisplayStats()
+    Storyline()
+END
+```
+
+*Subroutine: DisplayTitleScreen*
+```
+BEGIN DisplayTitleScreen()
+    DISPLAY Beyond The Horizon
+END DisplayTitleScreen()
+```
+
+*Subroutine: Storyline*
+```
+BEGIN Storyline
+    DisplayScene(title, story, action)
+END Storyline
+```
+
+*Subroutine: DisplayScene*
+```
+BEGIN DisplayScene(title, story, actions)
+    DisplayDialoge(title, story)
+    SelectAction(actions)    
+END DisplayScene
+```
+
+*Subroutine: DisplayStats*
+```
+BEGIN DisplayStats(name, type, health, max_health, mana, max_mana, damage, defence)
+    DISPLAY name
+    DISPLAY type
+
+    IF health > max_health THEN
+        bonus_health = health - max_health
+        health = max_health
+    ELSE
+        bonus_health = 0
+    ENDIF
+
+    bar_count = (health * 10) / max_health
+    active_health = █ * bar_count
+    inactive_health = █ * (10 - bar_count)
+    health_bar =  active_health, inactive_health
+    DISPLAY health_bar
+
+    IF mana > max_mana THEN
+        bonus_mana = mana - max_mana
+        mana = max_mana
+    ELSE
+        bonus_mana = 0
+    ENDIF
+
+    bar_count = (mana * 10) / max_mana
+    bars = █ * bar_count
+    dashes = █ * (10 - bar_count)
+    mana_bar = bars, dashes
+    DISPLAY mana_bar
+
+    DISPLAY damage
+    DISPLAY defence
+END DisplayStats
+```
+
+
