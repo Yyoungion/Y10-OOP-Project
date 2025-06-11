@@ -63,7 +63,7 @@ def DisplaySceneWithEvent(title, pre_description, event, post_description, actio
     DisplayDialog(title,post_description)
     selection=SelectAction(actions)
 
-def DisplayStats(name, type, health, max_health, mana, max_mana, damage, defence):
+def DisplayStats(name, type, health, max_health, mana, max_mana):
     print(f"| Name: {name} |")
     print(f"| Type: {type} |")
     
@@ -92,10 +92,16 @@ def DisplayStats(name, type, health, max_health, mana, max_mana, damage, defence
     else:
         bonus_mana = 0
 
-    bar_count = int(mana * 10 / max_mana)
-    bars = "█" * bar_count
-    dashes = "█" * (10 - bar_count)
-    mana_bar = f"\033[94m{bars}\033[0m{dashes}"
+    if max_mana == 0:
+        mana_bar = "No mana available"
+        print(f"| Mana ✨ : {mana_bar} |")
+        return
+    
+    else:
+        bar_count = int(mana * 10 / max_mana)
+        bars = "█" * bar_count
+        dashes = "█" * (10 - bar_count)
+        mana_bar = f"\033[94m{bars}\033[0m{dashes}"
 
     if bonus_mana > 0:
         bonus_bar_count = int(bonus_mana * 10 / max_mana)
@@ -104,9 +110,6 @@ def DisplayStats(name, type, health, max_health, mana, max_mana, damage, defence
         print(f"| Mana ✨: [{mana_bar}]({mana + bonus_mana}/{max_mana})|")
     else:
         print(f"| Mana ✨ : [{mana_bar}]({mana}/{max_mana})|")
-        
-    print(f"| Damage🗡️ : {damage} |")
-    print(f"| Defence🛡️ : {defence} |")
     print("=======================================")
 
 def DisplayInventory(inventory):
