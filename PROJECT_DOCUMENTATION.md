@@ -158,12 +158,6 @@
 
 <br />
 
-    CHECKPOINT
-    At every town or village will be a checkpoint. It the user were to die, they would return to the last checkpoint with 20% health and 1/2 of their coin. They will loose all their items such as armour and sword. 
-    The player will be 3 choice. 
-
-<br />
-
     CHOICES
     They can leave the VILLAGE, enter the SHOP, REST or enter the CASINO.  
 
@@ -661,5 +655,71 @@ BEGIN DisplayStats(name, type, health, max_health, mana, max_mana, damage, defen
     DISPLAY defence
 END DisplayStats
 ```
+
+---
+
+### Review
+
+I believe that my sprint 2 is completed pretty well, with the addition of a combat system and the creating of multiple different enemies that the player can fight. An inventory system was also implemented, allowing the player to use potions outside of combat to heal. The program can easily handle inputs and outputs with little to no delay between input and output. It behaves exactly as planned. The program could definaly be more compact and readable, however, it works and i'm not going to touch it (Inventory took 2 hours to do). In the next sprint, I am going to implement trading (buying potions, armour etc.) I will attempt to make improvements to the program, making the program more compact, especially the combat system.
+
+### Launch
+**README.md** \
+    # README.md
+
+    # Beyond the Horizon
+
+    A text-based adventure game written in Python. Explore, fight, and make choices that shape your journey!
+
+    ---
+
+    ## Features
+
+    - A branching and interactive storyline
+    - Turn-based combat system
+    - Inventory
+    - Error handling for user input
+
+    ---
+
+    ### Prerequisites
+
+    - Python 3.10 or higher
+
+    ### Installation
+
+    1. **Clone the repository** (or download the source files):
+
+    2. **Install dependencies**:
+
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+    ### Running the Game
+
+    From the `Program/Sprint 2` directory, run:
+
+    ```sh
+    main.py
+    ```
+
+    ---
+
+    ## Controls
+
+    - Use number keys (1, 2, 3, ...) to select actions.
+    - Use "Check Inventory" in menus to view and use items.
+    - Follow on-screen prompts for all actions.
+
+    ---
+
+    ## Requirements
+
+    See [requirements.txt](requirements.txt) for Python dependencies.
+
+    ---
+
+**requirements.txt** \
+    pyfiglet
 
 

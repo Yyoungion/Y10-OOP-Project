@@ -1,28 +1,54 @@
-# PROJECT Beyond the Horizon
+# README.md
 
-## Overview
+# Beyond the Horizon
 
-Follow the instructions below to set up and run the software.
+A text-based adventure game written in Python. Explore, fight, and make choices that shape your journey!
 
-## Prerequisites
+---
 
-- Python 3.10 or higher installed
-- Git (optional, for cloning the repository)
+## Features
 
-## Setup Instructions
+- A branching and interactive storyline
+- Turn-based combat system
+- Inventory
+- Error handling for user input
 
-1. **Install Dependencies**
-    In a new terminal (Control + Shift + `) paste in:
+---
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+### Prerequisites
 
-2. **Run the Program**
-    ```bash
-    main.py
-    ```
+- Python 3.10 or higher
 
-## Notes
+### Installation
 
-- Ensure all required files are in the same directory.
+1. **Clone the repository** (or download the source files):
+
+2. **Install dependencies**:
+
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+### Running the Game
+
+From the `Program/Sprint 2` directory, run:
+
+```sh
+main.py
+```
+
+---
+
+## Controls
+
+- Use number keys (1, 2, 3, ...) to select actions.
+- Use "Check Inventory" in menus to view and use items.
+- Follow on-screen prompts for all actions.
+
+---
+
+## Requirements
+
+See [requirements.txt](requirements.txt) for Python dependencies.
+
+---

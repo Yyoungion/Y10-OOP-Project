@@ -1,6 +1,5 @@
 import UserInterface as UI
 import random
-import math
 
 HeroName = input("Enter your name: ")
 
@@ -21,11 +20,12 @@ def select_dialog(prompt,items):
             return item
         except:
             print("Stop being an idiot!!!")
+            continue
 
-def roll_dice(sides):
+def roll_dice(prompt, sides):
     result = random.randrange(1,sides)
+    print(f"{prompt}: {result}")
     return result
-
 
 class Item(object):
     def __init__(self,name,value):
@@ -72,18 +72,31 @@ class Character(object):
     def stats(self):
         UI.DisplayStats(self.name,self.type, self.health,self.max_health,self.mana,self.max_mana)
 
-    def get_inventory_weapons(self):
-        result=[]
-        for item in self.inventory:
-            if isinstance(item, Weapon):
-                result.append(item)
-        return result
+    def get_inventory(self, item_type=None):
+        if item_type is None:
+            return self.inventory
+        return [item for item in self.inventory if isinstance(item, item_type)]
+
     def get_inventory_armour(self):
-        result=[]
+        return self.get_inventory(Armour)
+    
+    def use_item(self, item_name):
+        """
+        Use an item from inventory by name. If it's a Healing item, apply healing.
+        """
         for item in self.inventory:
-            if isinstance(item, Armour):
-                result.append(item)
-        return result
+            if item.name == item_name:
+                if isinstance(item, Healing):
+                    self.heal(item.amount)
+                    print(f"{self.name} used {item.name} and healed for {item.amount} HP.")
+                    self.stats()
+                    self.remove(item.name)
+                    return True
+                else:
+                    print(f"{item.name} cannot be used directly.")
+                    return False
+        print(f"{item_name} not found in inventory.")
+        return False
 
     def equip(self,item):
         if isinstance(item,Weapon):
@@ -115,17 +128,14 @@ class Character(object):
         gold.value+=source_item.value
 
     def give(self,item):
-        #print(self.name," has been given: ",item.name)
         if isinstance(item,Gold):
             self.add_gold(item)
         else:
             self.inventory.append(item)
         
-
     def remove(self,target_item_name):
         for inventory_item in self.inventory:
             if target_item_name == inventory_item.name:
-                print(f"{target_item_name} removed from {self.name} inventory")
                 self.unequip(inventory_item)
                 self.inventory.remove(inventory_item)
                 return
@@ -155,9 +165,6 @@ class Character(object):
             print(f"{index:2} - {item.name:20} {item.value:5} 🪙")
             index+=1
 
-    def DisplayInventory(self):
-        self.show_item_list(f"{self.name} inventory:",self.inventory)
-
     def get_total_resistance(self):
         resistance=0
         for location in self.equipped.keys():
@@ -165,28 +172,23 @@ class Character(object):
         return resistance
         
     def attack(self,target):
-        #print(self.name," attacked ",target.name," with ", self.equipped_weapon.name)
         sides=6
         attack_damage = int((self.equipped["Weapon"].damage*roll_dice("\tAttacking",sides))/sides)
-        #print("\t",self.name," Raw Attack Damage =", attack_damage)
         resistance=target.get_total_resistance()
-        #print("\t",target.name," Resistance =", resistance)
         armoured_attack_damage=attack_damage-resistance
         if armoured_attack_damage<0:
-            armoured_attack_damage=0
-        #print("\t",target.name, " received armoured Attack Damage =", armoured_attack_damage)            
+            armoured_attack_damage=0           
         target.health-=armoured_attack_damage
-        #print("\t",target.name," health is at ", target.health)
         print(f"{self.name:10} Attacked {target.name:10} | Inflicted Damage : {armoured_attack_damage:3} ")
 
     def heal(self,amount):
         self.health = self.health + amount
         if self.health > self.max_health:
             self.health=self.max_health
-        print(f"{self.name} healed to {self.health}")
 
     def is_dead(self):
         if self.health<=0:
+
             return True
         return False
 
@@ -231,7 +233,6 @@ class Character(object):
             except:
                 print("Stop being an idiot!!!")
 
-
     def fight(self,enemies):
         UI.DisplayTitle("A fight has started")
         round=1
@@ -247,8 +248,7 @@ class Character(object):
                     live_enemies.append(enemy)
 
             if len(live_enemies)==0:
-                self.heal(100)
-                print("you won")
+                print("YOU WIN!!!")
                 return True
             self.equip_dialog()
             target=select_dialog("Who will you attack?",live_enemies)
@@ -256,7 +256,13 @@ class Character(object):
             for enemy in live_enemies:
                 enemy.attack(self)
                 if self.is_dead():
-                    print("You died...... slow clap")
+                    print("""
+██╗░░░██╗░█████╗░██╗░░░██╗  ██████╗░██╗███████╗██████╗░
+╚██╗░██╔╝██╔══██╗██║░░░██║  ██╔══██╗██║██╔════╝██╔══██╗
+░╚████╔╝░██║░░██║██║░░░██║  ██║░░██║██║█████╗░░██║░░██║
+░░╚██╔╝░░██║░░██║██║░░░██║  ██║░░██║██║██╔══╝░░██║░░██║
+░░░██║░░░╚█████╔╝╚██████╔╝  ██████╔╝██║███████╗██████╔╝
+░░░╚═╝░░░░╚════╝░░╚═════╝░  ╚═════╝░╚═╝╚══════╝╚═════╝░""")
                     exit(0)
 
 class Hero(Character):
@@ -352,7 +358,6 @@ class CultistBoss(Character):
         super().__init__(name, "Cultist", 150, max_mana=0)
         self.give_and_equip(Weapon("Magic Hands",0,100))
 
-
 def GoblinFight():
     Player.fight([Goblin("Brzt")])
     Player.give(Weapon("Club",1,random.randrange(5,10)))
@@ -364,6 +369,7 @@ def BanditFight():
     Player.give(Weapon("Level 1 Wooden Sword",2,random.randrange(5,10)))
     Player.give(Weapon("Level 1 Wooden Sword",2,random.randrange(5,10)))
     Player.give(Gold(10))
+    Player.give(Healing("Lvl 1 Health Potion",5,10))
 
 def SkeletonFight():
     Player.fight([Skeleton("Norman"),Skeleton("Harry"),Skeleton("George")])

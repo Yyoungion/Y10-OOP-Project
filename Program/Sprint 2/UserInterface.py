@@ -16,21 +16,19 @@ def DisplaySubTitle(title):
     DisplaySeparator()
 
 def SelectAction(actions):
-    while(True):
+    while True:
         DisplaySeparator()
-        index=1
+        index = 1
         if isinstance(actions, dict):
             options = list(actions.keys())
-
         elif isinstance(actions, list):
             options = actions
-
         else:
             return
-        
+
         for option in options:
-            print(index,"-",option)
-            index+=1
+            print(index, "-", option)
+            index += 1
 
         try:
             option_input = input("Selection: ")
@@ -38,13 +36,11 @@ def SelectAction(actions):
             if option_index < 1 or option_index > len(options):
                 print("Invalid selection. Please enter a number between 1 and", len(options))
                 continue
-            print("You have selected:", option_index)
             DisplaySeparator()
-            action=options[option_index-1]
+            action = options[option_index - 1]
             print("You have selected:", action)
-            actions[action]()
-            return
-        
+            actions[action]()  # Call the action
+            return action      # Return the action name
         except ValueError:
             print("Invalid input. Please enter a valid number.")
             exit()
@@ -121,13 +117,13 @@ def DisplayInventory(inventory):
     print("=======================================")
 
 def DisplayGameOver():
-    print("=======================================")
-    print("Game Over")
-    print("=======================================")
-    print("You have died. Please restart the game.")
-    print("=======================================")
-    print("Thank you for playing Beyond the Horizon!")
-    print("=======================================")
+    print("""
+██╗░░░██╗░█████╗░██╗░░░██╗  ██████╗░██╗███████╗██████╗░
+╚██╗░██╔╝██╔══██╗██║░░░██║  ██╔══██╗██║██╔════╝██╔══██╗
+░╚████╔╝░██║░░██║██║░░░██║  ██║░░██║██║█████╗░░██║░░██║
+░░╚██╔╝░░██║░░██║██║░░░██║  ██║░░██║██║██╔══╝░░██║░░██║
+░░░██║░░░╚█████╔╝╚██████╔╝  ██████╔╝██║███████╗██████╔╝
+░░░╚═╝░░░░╚════╝░░╚═════╝░  ╚═════╝░╚═╝╚══════╝╚═════╝░""")
 
 
 
