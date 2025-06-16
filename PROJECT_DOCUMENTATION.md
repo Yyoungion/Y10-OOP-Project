@@ -1,5 +1,3 @@
-
-
 # 11SE Task 2 - OOP - Text Based Adventure
 #### *By Yyoung Du*
 
@@ -722,4 +720,10 @@ I believe that my sprint 2 is completed pretty well, with the addition of a comb
 **requirements.txt** \
     pyfiglet
 
+---
 
+## Sprint 3
+
+### Design
+**UML Class Diagram** \
+<img src="Diagrams/UML-Class-Diagram.png" alt="image" width="800"/>
