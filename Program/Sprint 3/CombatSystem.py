@@ -36,6 +36,11 @@ class Healing(Item):
     def __init__(self,name,value,amount):
         super().__init__(name,value)
         self.amount=amount
+    
+class ManaHealing(Item):
+    def __init__(self,name,value,amount):
+        super().__init__(name,value)
+        self.amount=amount
 
 class Gold(Item):
     def __init__(self,value):
@@ -67,7 +72,6 @@ class Character(object):
         self.max_health=health
         self.inventory=[]
         self.max_mana = max_mana
-        self.mana = max_mana
 
     def stats(self):
         UI.DisplayStats(self.name,self.type, self.health,self.max_health,self.mana,self.max_mana)
@@ -76,13 +80,16 @@ class Character(object):
         if item_type is None:
             return self.inventory
         return [item for item in self.inventory if isinstance(item, item_type)]
+    
+    def DisplayInventory(self):
+        self.show_item_list(f"{self.name} inventory:",self.inventory)
 
     def get_inventory_armour(self):
         return self.get_inventory(Armour)
     
     def use_item(self, item_name):
         """
-        Use an item from inventory by name. If it's a Healing item, apply healing.
+        Use an item from inventory by name. If it's a Healing or Mana Healing item, apply effect.
         """
         for item in self.inventory:
             if item.name == item_name:
@@ -90,6 +97,14 @@ class Character(object):
                     self.heal(item.amount)
                     print(f"{self.name} used {item.name} and healed for {item.amount} HP.")
                     self.stats()
+                    self.remove(item.name)
+                    return True
+                elif isinstance(item, ManaHealing):
+                    self.mana += item.amount
+                    if self.mana > self.max_mana:
+                        self.mana = self.max_mana
+                    print(f"{self.name} used {item.name} and restored {item.amount} Mana.")
+                    self.stats()        
                     self.remove(item.name)
                     return True
                 else:
@@ -151,10 +166,20 @@ class Character(object):
 
     def equip_dialog(self):
         while True:
-            response = input("Do you want to equip an item?(Yes / No) ")
-            if response == 'Yes' or response == 'yes':
-                self.equip(select_dialog("Equip item",self.inventory))
-                self.show_equiped()
+            response = input("Do you want to equip or use an item? (Equip / Use / No): ").strip().lower()
+            if response == 'equip' or response == 'Equip':
+                item = select_dialog("Equip item", self.inventory)
+                if isinstance(item, (Weapon, Armour)):
+                    self.equip(item)
+                    self.show_equiped()
+                else:
+                    print(f"{item.name} cannot be equipped.")
+            elif response == 'use' or response == 'Use':
+                item = select_dialog("Use item", self.inventory)
+                if isinstance(item, (Healing, ManaHealing)):
+                    self.use_item(item.name)
+                else:
+                    print(f"{item.name} cannot be used directly.")
             else:
                 return
 
@@ -173,12 +198,14 @@ class Character(object):
         
     def attack(self,target):
         sides=6
-        attack_damage = int((self.equipped["Weapon"].damage*roll_dice("\tAttacking",sides))/sides)
-        resistance=target.get_total_resistance()
-        armoured_attack_damage=attack_damage-resistance
-        if armoured_attack_damage<0:
-            armoured_attack_damage=0           
-        target.health-=armoured_attack_damage
+        attack_roll = roll_dice(f"{self.name}'s Attack Roll", sides)
+        attack_damage = int((self.equipped["Weapon"].damage * attack_roll) / sides)
+        resistance = target.get_total_resistance()
+        armoured_attack_damage = attack_damage - resistance
+        print(f"After resistance ({resistance}), {target.name} takes {armoured_attack_damage} damage.")
+        if armoured_attack_damage < 0:
+            armoured_attack_damage = 0
+        target.health -= armoured_attack_damage
 
     def heal(self,amount):
         self.health = self.health + amount
@@ -230,7 +257,8 @@ class Character(object):
                 else:
                     return
             except:
-                print("Stop being an idiot!!!")
+                print("Please select a valid option")
+                continue
 
     def fight(self,enemies):
         UI.DisplayTitle("A fight has started")
@@ -239,7 +267,6 @@ class Character(object):
             UI.DisplayTitle(f"Round {round}")
             round+=1
             self.stats()
-            #player attacks
             live_enemies=[]
             for enemy in enemies:
                 if not enemy.is_dead():
@@ -269,6 +296,8 @@ class Hero(Character):
         super().__init__(name,"Human", 100, max_mana=50)
         self.give_and_equip(Weapon("Stick",0,random.randrange(5,15)))
         self.give(Gold(10))
+        self.give(ManaHealing("Lvl 1 Mana Potion",5,10))
+        self.give(Healing("Lvl 1 Health Potion",5,10))
 
 class Goblin(Character):
     def __init__(self,name):
@@ -287,23 +316,10 @@ class Merchant(Character):
         self.give(Healing("Lvl 2 Health Potion",15,20))
         self.give(Healing("Lvl 3 Health Potion",25,30))
         self.give(Healing("Lvl 4 Health Potion",40,50))
-        self.give(Healing("Lvl 5 Health Potion",70,100))
-        self.give(Healing("Lvl 1 Health Potion",5,10))
-        self.give(Healing("Lvl 2 Health Potion",15,20))
-        self.give(Healing("Lvl 3 Health Potion",25,30))
-        self.give(Healing("Lvl 4 Health Potion",40,50))
-        self.give(Healing("Lvl 5 Health Potion",70,100))
-        self.give(Healing("Lvl 1 Health Potion",5,10))
-        self.give(Healing("Lvl 2 Health Potion",15,20))
-        self.give(Healing("Lvl 3 Health Potion",25,30))
-        self.give(Healing("Lvl 4 Health Potion",40,50))
-        self.give(Healing("Lvl 5 Health Potion",70,100))
-        self.give(Healing("Lvl 1 Health Potion",5,10))
-        self.give(Healing("Lvl 2 Health Potion",15,20))
-        self.give(Healing("Lvl 3 Health Potion",25,30))
-        self.give(Healing("Lvl 4 Health Potion",40,50))
-        self.give(Healing("Lvl 5 Health Potion",70,100))
-        self.give(Gold(100))
+        self.give(ManaHealing("Lvl 1 Mana Potion",5,10))
+        self.give(ManaHealing("Lvl 2 Mana Potion",15,20))
+        self.give(ManaHealing("Lvl 3 Mana Potion",25,30))
+        self.give(ManaHealing("Lvl 4 Mana Potion",40,50))
 
 class Blacksmith(Character):
     def __init__(self,name):
@@ -315,17 +331,19 @@ class Blacksmith(Character):
         self.give(Weapon("Lvl 1 Metal Sword",13, 20))
         self.give(Weapon("Lvl 2 Metal Sword",16, 25))
         self.give(Weapon("Lvl 3 Metal Sword",19, 30))
-
+        
         self.give(Weapon("Lvl 1 Diamond Sword",23, 35))
         self.give(Weapon("Lvl 2 Diamond Sword",26, 40))
         self.give(Weapon("Lvl 3 Diamond Sword",29, 45))
         
-        self.give(Armour("leather chestplate",5,2 ,'Torso'))
-        self.give(Armour("leather helmet",2,1 ,'Head'))
+        self.give(Armour("Leather chestplate",5,2 ,'Torso'))
+        self.give(Armour("Leather helmet",2,1 ,'Head'))
 
         self.give(Armour("Metal chestplate",15,10 ,'Torso'))
         self.give(Armour("Metal helmet",12,7 ,'Head'))
-        self.give(Gold(100))
+
+        self.give(Armour("Diamond chestplate",25,20 ,'Torso'))
+        self.give(Armour("Diamond helmet",22,15 ,'Head'))
         
 class Skeleton(Character):
     def __init__(self,name):
@@ -366,6 +384,11 @@ def BanditFight():
     Player.fight([Human("Bob"),Human("Gary"),])
     Player.give(Weapon("Level 1 Wooden Sword",2,random.randrange(5,10)))
     Player.give(Weapon("Level 1 Wooden Sword",2,random.randrange(5,10)))
+    Player.give(Gold(10))
+    Player.give(Healing("Lvl 1 Health Potion",5,10))
+
+def BanditFight2():
+    Player.fight([Human("Bob"),])
     Player.give(Weapon("Level 1 Wooden Sword",2,random.randrange(5,10)))
     Player.give(Gold(10))
     Player.give(Healing("Lvl 1 Health Potion",5,10))
@@ -427,6 +450,6 @@ def CultistFinalBoss():
     Player.fight([CultistBoss("Scolrang")])
 
 Player = Hero(HeroName)
-blacksmith_bob=Blacksmith("Blacksmith Bob")
-Merchant_Charlie=Merchant("Merchant Charlie")
-Merchant_Barlie=Merchant("Merchant Barlie")
+Blacksmith_Bob = Blacksmith("Blacksmith Bob")
+Merchant_Charlie = Merchant("Merchant Charlie")
+Merchant_Barlie = Merchant("Merchant Barlie")

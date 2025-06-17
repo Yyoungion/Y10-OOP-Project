@@ -10,4 +10,4 @@ def main():
     input("Press Enter to continue...")
     Storyline.Storyline()
 
-main()     
+main()
