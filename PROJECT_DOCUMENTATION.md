@@ -729,4 +729,42 @@ I believe that my sprint 2 is completed pretty well, with the addition of a comb
 **UML Class Diagram** \
 <img src="Diagrams/UML-Class-Diagram.png" alt="image" width="800"/>
 
+### Review
+I believe that my sprint 3 is completed pretty well, with an addition of a trading system, improvements to the combat system as well as improvements towards the actual look of the program outputs. The trading system was well implemented, with the ability for players to purchase items such as swords, armour, and potions. The combat system was also improved, now allowing players to consume potions mid battle. I also made it so that the text came out slowly, with the ability to press enter to skip. The program can easily handle inputs and outputs with little to no delay between input and output. It behaves exactly as planned. The program is pretty well designed and further improvements isn't necessary (It works). In the next sprint, I will be finishing off the storyline, adding more places where the players can trade and advace towards the final boss.
+
+### Launch
+**README.md** \
+    # Y10 OOP Project - Sprint 3
+
+
+    ## Features
+
+    - A semi-completed storyline
+    - A functioning combat system
+    - A functioning trading system
+    - A functioning inventory system
+
+    ## Installation
+
+    1. **Clone the repository:**
+
+    2. **Navigate to the project directory:**
+    ```bash
+    cd Y10-OOP-Project/Program/Sprint 3
+    ```
+    3. **Run the program:**
+    - Run the file main.py
+
+    ## Requirements
+
+    - Python
+    - Any additional dependencies listed in `requirements.txt`
+
+    ## Usage
+
+    - Follow the prompts in the application.
+
+**requirements.txt** \
+    pyfiglet
+
 ## Sprint 4

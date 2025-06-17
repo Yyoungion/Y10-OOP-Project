@@ -1,54 +1,30 @@
-# README.md
+# Y10 OOP Project - Sprint 3
 
-# Beyond the Horizon
-
-A text-based adventure game written in Python. Explore, fight, and make choices that shape your journey!
-
----
 
 ## Features
 
-- A branching and interactive storyline
-- Turn-based combat system
-- Inventory
-- Error handling for user input
+- A semi-completed storyline
+- A functioning combat system
+- A functioning trading system
+- A functioning inventory system
 
----
+## Installation
 
-### Prerequisites
+1. **Clone the repository:**
 
-- Python 3.10 or higher
-
-### Installation
-
-1. **Clone the repository** (or download the source files):
-
-2. **Install dependencies**:
-
-   ```sh
-   pip install -r requirements.txt
+2. **Navigate to the project directory:**
+   ```bash
+   cd Y10-OOP-Project/Program/Sprint 3
    ```
-
-### Running the Game
-
-From the `Program/Sprint 2` directory, run:
-
-```sh
-main.py
-```
-
----
-
-## Controls
-
-- Use number keys (1, 2, 3, ...) to select actions.
-- Use "Check Inventory" in menus to view and use items.
-- Follow on-screen prompts for all actions.
-
----
+3. **Run the program:**
+   - Run the file main.py
 
 ## Requirements
 
-See [requirements.txt](requirements.txt) for Python dependencies.
+- Python
+- Any additional dependencies listed in `requirements.txt`
 
----
+## Usage
+
+- Follow the prompts in the application.
+
