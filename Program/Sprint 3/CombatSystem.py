@@ -71,6 +71,7 @@ class Character(object):
         self.health=health
         self.max_health=health
         self.inventory=[]
+        self.mana= max_mana
         self.max_mana = max_mana
 
     def stats(self):
@@ -88,9 +89,6 @@ class Character(object):
         return self.get_inventory(Armour)
     
     def use_item(self, item_name):
-        """
-        Use an item from inventory by name. If it's a Healing or Mana Healing item, apply effect.
-        """
         for item in self.inventory:
             if item.name == item_name:
                 if isinstance(item, Healing):
@@ -166,23 +164,39 @@ class Character(object):
 
     def equip_dialog(self):
         while True:
-            response = input("Do you want to equip or use an item? (Equip / Use / No): ").strip().lower()
-            if response == 'equip' or response == 'Equip':
+            response = input("Do you want to equip, use, or unequip an item? (Equip / Use / No): ").strip().lower()
+            if response == 'equip':
                 item = select_dialog("Equip item", self.inventory)
-                if isinstance(item, (Weapon, Armour)):
+                already_equipped = False
+                if isinstance(item, Weapon):
+                    already_equipped = self.equipped["Weapon"] == item
+                elif isinstance(item, Armour):
+                    already_equipped = self.equipped[item.location] == item
+                if already_equipped:
+                    self.unequip(item)
+                    print(f"{item.name} has been unequipped.")
+                    self.show_equiped()
+                elif isinstance(item, (Weapon, Armour)):
                     self.equip(item)
+                    print(f"{item.name} has been equipped.")
                     self.show_equiped()
                 else:
                     print(f"{item.name} cannot be equipped.")
-            elif response == 'use' or response == 'Use':
+
+            elif response == 'use':
                 item = select_dialog("Use item", self.inventory)
                 if isinstance(item, (Healing, ManaHealing)):
                     self.use_item(item.name)
                 else:
                     print(f"{item.name} cannot be used directly.")
-            else:
+    
+            elif response == 'no':
+                print("No items equipped.")
                 return
-
+            
+            else:
+                print("Invalid option. Please choose 'Equip', 'Use', or 'No'.")
+                continue
     def show_item_list(self,title,list):
         UI.DisplayTitle(title)
         index=1
@@ -282,13 +296,7 @@ class Character(object):
             for enemy in live_enemies:
                 enemy.attack(self)
                 if self.is_dead():
-                    print("""
-██╗░░░██╗░█████╗░██╗░░░██╗  ██████╗░██╗███████╗██████╗░
-╚██╗░██╔╝██╔══██╗██║░░░██║  ██╔══██╗██║██╔════╝██╔══██╗
-░╚████╔╝░██║░░██║██║░░░██║  ██║░░██║██║█████╗░░██║░░██║
-░░╚██╔╝░░██║░░██║██║░░░██║  ██║░░██║██║██╔══╝░░██║░░██║
-░░░██║░░░╚█████╔╝╚██████╔╝  ██████╔╝██║███████╗██████╔╝
-░░░╚═╝░░░░╚════╝░░╚═════╝░  ╚═════╝░╚═╝╚══════╝╚═════╝░""")
+                    UI.DisplayGameOver()
                     exit(0)
 
 class Hero(Character):

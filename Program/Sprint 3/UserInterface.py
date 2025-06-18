@@ -4,16 +4,16 @@ def DisplayTitleScreen():
     print(pyfiglet.figlet_format("Beyond the Horizon"))
 
 def DisplaySeparator():
-    print("+"+"-"*78+"+")
+    print("+"+"-"*140+"+")
 
 def DisplayTitle(title):
     DisplaySeparator()
-    print(f"| {title.center(76)} |")
+    print(f"|{title.center(140)}|")
     DisplaySeparator()
 
 def DisplaySubTitle(title):
     DisplaySeparator()
-    print(f"| {title:76} |")
+    print(f"| {title:140} |")
     DisplaySeparator()
     
 def SelectAction(actions):
@@ -119,6 +119,8 @@ def DisplayInventory(inventory):
     print("=======================================")
 
 def DisplayGameOver():
+    print("")
+    print("")
     print("""
 ██╗░░░██╗░█████╗░██╗░░░██╗  ██████╗░██╗███████╗██████╗░
 ╚██╗░██╔╝██╔══██╗██║░░░██║  ██╔══██╗██║██╔════╝██╔══██╗
