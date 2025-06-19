@@ -1,30 +1,43 @@
-# Y10 OOP Project - Sprint 3
+# Y10 OOP Project - Sprint 4
 
+## Overview
 
 ## Features
 
-- A semi-completed storyline
-- A functioning combat system
-- A functioning trading system
-- A functioning inventory system
+- A turn based combat system
+- A cohesive storyline with each selection affecting the path you take in the story'
+- A readable UI and typwriter like text output.
 
-## Installation
+## Getting Started
 
-1. **Clone the repository:**
-
-2. **Navigate to the project directory:**
+1. Clone the repository:
    ```bash
-   cd Y10-OOP-Project/Program/Sprint 3
+   git clone https://github.com/yourusername/Y10-OOP-Project.git
    ```
-3. **Run the program:**
-   - Run the file main.py
+2. Navigate to the project directory:
+   ```bash
+   cd Y10-OOP-Project/Program/Sprint4
+   ```
 
 ## Requirements
 
-- Python
+- Python 3.x (or relevant language)
 - Any additional dependencies listed in `requirements.txt`
 
 ## Usage
 
-- Follow the prompts in the application.
+To use the application:
+
+1. Ensure all requirements are installed:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Run the main program file:
+   ```bash
+   python main.py
+   ```
+3. Follow the on-screen instructions to interact with the program
+
+
+
 

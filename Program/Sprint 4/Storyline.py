@@ -7,6 +7,8 @@ import textwrap
 import random
 import sys
 
+# Prints text slowly, allowing the user to skip by pressing a key
+
 def slow_print(text, delay=0.03):
     skip = {"value": False}
 
@@ -30,6 +32,7 @@ def slow_print(text, delay=0.03):
         time.sleep(delay)
         i += 1
 
+# Displays and manages the player's inventory
 def Access_Inventory():
     inventory = Combat.Player.get_inventory()
     if not inventory:
@@ -100,6 +103,7 @@ def Access_Inventory():
     UI.SelectAction(item_actions)
     return
 
+# Uses an item from the inventory
 def Use_Item(item_name):
     result = Combat.Player.use_item(item_name)
     if result:
@@ -109,12 +113,13 @@ def Use_Item(item_name):
         slow_print(f"Could not use {item_name}.\n")
         input("Press Enter to continue...")
 
+# Initiates trade with the blacksmith
 def BlacksmithTrade():
     Combat.Player.trade(Combat.Blacksmith_Bob)
 
+# Blacksmith location logic
 def Blacksmith():
   while True: 
-
     UI.DisplayScene(
       "Blacksmith",
       "You walk into the blacksmith to see incredible weapons and armours",
@@ -124,12 +129,13 @@ def Blacksmith():
       }
     ) 
 
+# Initiates trade with the merchant
 def MerchantTrade():
    Combat.Player.trade(Combat.Merchant_Charlie)
 
+# Merchant location logic
 def Merchant():
   while True: 
-
     UI.DisplayScene(
       "Merchant",
       "You see many exotic items aound the merchant's stall",
@@ -139,6 +145,7 @@ def Merchant():
       }
   )
 
+# Casino location logic
 def Casino():
   while True:
     UI.DisplayTitle("Casino")
@@ -156,6 +163,7 @@ def Casino():
     }
     UI.SelectAction(actions)
 
+# Alternate casino menu for returning
 def Casino2():
     UI.DisplayTitle("Casino")
     actions = {
@@ -165,6 +173,7 @@ def Casino2():
     }
     UI.SelectAction(actions)
 
+# Roulette game logic
 def Roulette():
     print("\nWelcome to the Roulette Table!")
     while True:
@@ -239,12 +248,14 @@ def Roulette():
         else:
             print("Invalid choice. Try again.")
 
+# Blackjack game logic
 def Blackjack():
     print("\nWelcome to Blackjack!")
     deck = [str(n) for n in range(2, 11)] + ["J", "Q", "K", "A"]
     deck = deck * 4
     random.shuffle(deck)
 
+    # Returns the value of a card
     def card_value(card):
         if card in ["J", "Q", "K"]:
             return 10
@@ -253,6 +264,7 @@ def Blackjack():
         else:
             return int(card)
 
+    # Returns the total value of a hand, adjusting for aces
     def hand_value(hand):
         value = sum(card_value(card) for card in hand)
         # Adjust for Aces
@@ -285,7 +297,6 @@ def Blackjack():
         print(f"Your hand: {player_hand} (Value: {hand_value(player_hand)})")
         print(f"Dealer shows: {dealer_hand[0]}")
 
-
         # Player turn
         while True:
             if hand_value(player_hand) == 21:
@@ -308,7 +319,7 @@ def Blackjack():
         else:
             continue  
 
-
+        # Dealer turn and outcome
         if hand_value(player_hand) <= 21:
             print(f"Dealer's hand: {dealer_hand} (Value: {hand_value(dealer_hand)})")
             while hand_value(dealer_hand) < 17:
@@ -341,6 +352,7 @@ def Blackjack():
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
 
+# Local dungeon logic and loop
 def Local_Dungeon():
     slow_print("You enter the local dungeon. Prepare for a fight!")
     print("")
@@ -361,6 +373,7 @@ def Local_Dungeon():
             a = input("Do you want to do the dungeon again? (y/n): ").lower()
             continue
 
+# Main storyline introduction
 def Storyline():
     UI.DisplayTitle("The Burning Village")
     intro_text = "You wake up to find your home burning in the sunlight and a loud roar in the distance. You run outside to see your whole village ravaged by fire and a large winged beast flying away. You try to find your family but your efforts are worthless as you find out from the town mayor. Your Mother and Sister were trapped under a burning pile of wood and were burnt. You ask the mayor about your father and the mayor lowers his head. In a weak voice he says your father couldn't deal with the news of your mother and sister and has run away leaving you and the rest of the town. More Buildings collapse as you stand there sobbing but action for your survival must be done. Rocks are falling around you.\n"
@@ -378,6 +391,7 @@ def Storyline():
         Access_Inventory()
         Storyline()
 
+# Forest path logic
 def Run_to_Forest():
     UI.DisplayTitle("Run to the Forest")
     forest_text = "You run into the forest and find a small cave. You hide in the cave and wait for the danger to pass. After a while, you hear the sound of footsteps approaching. You hold your breath and try to stay quiet. Suddenly, a group of bandits enters the cave. They look around and spot you hiding in the corner. They draw their weapons and approach you. What do you do?\n"
@@ -390,6 +404,7 @@ def Run_to_Forest():
     }
     UI.SelectAction(actions)
 
+# Tree path logic
 def Climb_Tree():
     UI.DisplayTitle("Climb Tree")
     climb_tree_text = "You climb up the tree and find a sturdy branch to sit on. From your vantage point, you see the village engulfed in flames and the dragon soaring away in the distance. You steady your breath, trying to process the chaos below. Suddenly, the branch beneath you snaps with a loud crack! You crash down, landing on top of a bandit and knocking him out cold. His companion, startled and angry, draws his weapon and advances toward you. You must act quickly.\n"
@@ -402,6 +417,7 @@ def Climb_Tree():
     }
     UI.SelectAction(actions)
 
+# Cave path logic
 def Hide_Cave():
     UI.DisplayTitle("Hide in Cave")
     hide_cave_text = "You hide in the cave and wait for the danger to pass. You hear the sound of footsteps approaching. You hold your breath and try to stay quiet. Suddenly, a group of bandits enters the cave. They look around and spot you hiding in the corner. They draw their weapons and approach you. You have to think fast!\n"
@@ -414,6 +430,7 @@ def Hide_Cave():
     }
     UI.SelectAction(actions)
 
+# Bandit fight logic for forest/cave
 def BanditAttack():
     Combat.BanditFight()
     UI.DisplayTitle("Bandit Attack")
@@ -424,6 +441,7 @@ def BanditAttack():
                }
     UI.SelectAction(actions)
 
+# Bandit fight logic for tree path
 def BanditAttack2():
     Combat.BanditFight2()
     UI.DisplayTitle("Bandit Attack")
@@ -434,6 +452,7 @@ def BanditAttack2():
     }
     UI.SelectAction(actions)
 
+# Continue into the forest after bandit fight
 def ContinueForest():
     UI.DisplayTitle("Continue into the Forest")
     slow_print("\n".join(textwrap.wrap("You press on into the thick forest, the sounds of the burning village fading behind you. The trees close in, their shadows long and mysterious. Every step is uncertain, but you refuse to give up. Eventually, you catch sight of rooftops peeking through the foliage—a town called Riverbend. The warm glow of lanterns and the hum of distant voices offer hope and a brief respite from your ordeal.\n", width=140)))
@@ -447,6 +466,7 @@ def ContinueForest():
         Access_Inventory()
         ContinueForest()
 
+# Enter the town of Riverbend
 def EnterRiverbend():
     UI.DisplayTitle("Enter Riverbend")
     slow_print("\n".join(textwrap.wrap("You enter the town of Riverbend. The bustling marketplace is alive with the chatter of townsfolk and the aroma of fresh bread. Stalls line the cobblestone streets, offering everything from shining weapons to exotic trinkets. You take a deep breath, feeling a sense of relief after your journey. As you rest, the warmth of the town helps your wounds begin to heal.\n", width=140)))
@@ -471,6 +491,7 @@ def EnterRiverbend():
         Access_Inventory()
         EnterRiverbendAgain()
 
+# Alternate Riverbend menu for returning
 def EnterRiverbendAgain():
     actions = {
         "Visit the Blacksmith": Blacksmith,
@@ -485,6 +506,7 @@ def EnterRiverbendAgain():
         Access_Inventory()
         EnterRiverbendAgain()
 
+# Continue deeper into the forest from Riverbend
 def ContinueForest2():
     UI.DisplayTitle("Deeper into the Forest")
     slow_print("\n".join(textwrap.wrap(
@@ -500,6 +522,7 @@ def ContinueForest2():
     if selected == "Check Inventory":
         Access_Inventory()
 
+# Explore the cave path
 def ExploreCave():
     UI.DisplayTitle("The Dark Cave")
     slow_print("\n".join(textwrap.wrap(
@@ -512,6 +535,7 @@ def ExploreCave():
     }
     UI.SelectAction(actions)
 
+# Skeleton fight logic
 def SkeletonFight():
     Combat.SkeletonFight()
     UI.DisplayTitle("After the Battle")
@@ -523,6 +547,7 @@ def SkeletonFight():
     input("Press Enter to continue...")
     CultistFightIntro()
 
+# Approach the campfire path
 def ApproachCampfire():
     UI.DisplayTitle("The Mysterious Stranger")
     slow_print("\n".join(textwrap.wrap(
@@ -536,6 +561,7 @@ def ApproachCampfire():
     }
     UI.SelectAction(actions)
 
+# Attack the mysterious stranger
 def AttackTheStranger():
     Combat.MysteriousStrangerFight()
     slow_print("You survived...")
@@ -545,6 +571,7 @@ def AttackTheStranger():
     input("Press Enter to continue...")
     CultistFightIntro()
 
+# Talk to the mysterious stranger
 def TalkToStranger():
     slow_print("\n".join(textwrap.wrap(
         "You sit by the fire and share your story. The stranger listens intently, then offers you some advice and a map of the forest. 'Beware the dragon's minions,' they warn. 'And trust no one.' You thank the stranger and continue your journey.",
@@ -553,6 +580,7 @@ def TalkToStranger():
     input("Press Enter to continue...")
     CultistFightIntro()
 
+# Cultist encounter introduction
 def CultistFightIntro():
     UI.DisplayTitle("Cultist Encounter")
     slow_print("\n".join(textwrap.wrap(
@@ -565,11 +593,13 @@ def CultistFightIntro():
     }
     UI.SelectAction(actions)
 
+# Escape from cultists without artifact
 def NoArtifact():
     slow_print("You escape the cultists and flee deeper into the forest. Eventually, you find your way to a peaceful village called Willowbrook.")
     print("")
     Willowbrook()
 
+# Cultist fight logic
 def CultistFight():
     Combat.Cultistfight()
     UI.DisplayTitle("After the Cultist Battle")
@@ -580,6 +610,7 @@ def CultistFight():
     input("Press Enter to continue...")
     CultistBossIntro()
 
+# Cultist boss encounter introduction
 def CultistBossIntro():
     UI.DisplayTitle("Cultist Boss Encounter")
     slow_print("\n".join(textwrap.wrap(
@@ -591,16 +622,18 @@ def CultistBossIntro():
     }
     UI.SelectAction(actions)
 
+# Cultist boss fight logic
 def CultistBossFight():
     Combat.CultistFinalBoss()
     UI.DisplayTitle("After the Cultist Boss Battle")
     slow_print("\n".join(textwrap.wrap(
-        "The cultist leader collapses, his staff clattering to the ground as the dark energy dissipates into the night. The forest is eerily quiet, save for your heavy breathing. You search the clearing and find a strange amulet among the cultist's belongings—its surface etched with runes that glow faintly in your hand. You sense that this artifact may be important for your journey ahead. With the cultists defeated and the amulet in your possession, you gather your strength and press onward, determined to face whatever challenges await.",
+        "The cultist leader collapses, his staff clattering to the ground as the dark energy dissipates into the night. The forest is eerily quiet, save for your heavy breathing. You search the clearing and find a strange amulet among the cultist's belongings—its surface etched with runes that glow faintly in your hand. You use the artifact and you glow with warmth. You feel healthier. With the cultists defeated and the amulet in your possession, you gather your strength and press onward, determined to face whatever challenges await.",
         width=140)))
     print("")
     input("Press Enter to continue...")
     Willowbrook()
 
+# Enter Willowbrook village
 def Willowbrook():
     UI.DisplayTitle("Enter Willowbrook")
     slow_print("\n".join(textwrap.wrap(
@@ -629,6 +662,7 @@ def Willowbrook():
         Access_Inventory()
         Willowbrook2()
         
+# Alternate Willowbrook menu for returning
 def Willowbrook2():
     actions = {
     "Visit the Healer": VisitHealer,
@@ -644,6 +678,7 @@ def Willowbrook2():
         Access_Inventory()
         Willowbrook2()
 
+# Willowbrook casino logic
 def VisitCasino():
   while True:
     UI.DisplayTitle("Casino")
@@ -661,6 +696,7 @@ def VisitCasino():
     }
     UI.SelectAction(actions)
 
+# Alternate Willowbrook casino menu
 def Casino3():
     UI.DisplayTitle("Casino")
     actions = {
@@ -670,6 +706,7 @@ def Casino3():
     }
     UI.SelectAction(actions)
 
+# Willowbrook roulette logic
 def Roulette2():
     print("\nWelcome to the Roulette Table!")
     while True:
@@ -744,6 +781,7 @@ def Roulette2():
         else:
             print("Invalid choice. Try again.")
 
+# Willowbrook blackjack logic
 def Blackjack2():
     print("\nWelcome to Blackjack!")
     deck = [str(n) for n in range(2, 11)] + ["J", "Q", "K", "A"]
@@ -790,7 +828,6 @@ def Blackjack2():
         print(f"Your hand: {player_hand} (Value: {hand_value(player_hand)})")
         print(f"Dealer shows: {dealer_hand[0]}")
 
-
         # Player turn
         while True:
             if hand_value(player_hand) == 21:
@@ -812,7 +849,6 @@ def Blackjack2():
                 print("Invalid input.")
         else:
             continue  
-
 
         if hand_value(player_hand) <= 21:
             print(f"Dealer's hand: {dealer_hand} (Value: {hand_value(dealer_hand)})")
@@ -846,6 +882,7 @@ def Blackjack2():
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
 
+# Visit the healer in Willowbrook
 def VisitHealer():
     UI.DisplayTitle("Healer's Hut")
     slow_print("\n".join(textwrap.wrap(
@@ -858,6 +895,7 @@ def VisitHealer():
     input("Press Enter to return to Willowbrook...")
     Willowbrook2()
 
+# Visit the market in Willowbrook
 def VisitMarket():
     UI.DisplayTitle("Willowbrook Market")
     slow_print("\n".join(textwrap.wrap(
@@ -868,6 +906,7 @@ def VisitMarket():
     input("Press Enter to return to Willowbrook...")
     Willowbrook2()
 
+# Visit the blacksmith in Willowbrook
 def VisitBlacksmith():
     UI.DisplayTitle("Willowbrook Blacksmith")
     slow_print("\n".join(textwrap.wrap(
@@ -878,6 +917,7 @@ def VisitBlacksmith():
     input("Press Enter to return to Willowbrook...")
     Willowbrook2()
 
+# Investigate the old tower in Willowbrook
 def InvestigateTower():
     UI.DisplayTitle("The Old Tower")
     slow_print("\n".join(textwrap.wrap(
@@ -891,6 +931,7 @@ def InvestigateTower():
     }
     UI.SelectAction(actions)
 
+# Solve the ghost's riddle
 def SolveRiddle():
     UI.DisplayTitle("The Riddle")
     slow_print("The ghost asks: 'I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?'")
@@ -899,7 +940,7 @@ def SolveRiddle():
     if "echo" in answer:
         slow_print("The ghost smiles and vanishes, blessing you. You feel a bit healthier")
         print("")
-        Combat.Player.max_health = 150
+        Combat.Player.max_health = Combat.Player.max_health + 50
         Combat.Player.health = Combat.Player.max_health
 
     else:
@@ -909,11 +950,13 @@ def SolveRiddle():
     input("Press Enter to return to Willowbrook...")
     Willowbrook2()
 
+# Fight the ghost in the tower
 def FightGhost():
     Combat.GhostFight()
     input("Press Enter to return to Willowbrook...")
     Willowbrook2()
 
+# Continue journey after Willowbrook
 def ContinueForest3():
     UI.DisplayTitle("Journey Continues")
     slow_print("\n".join(textwrap.wrap(
@@ -930,6 +973,7 @@ def ContinueForest3():
         Access_Inventory()
         ContinueForest3()
 
+# Approach the castle
 def Approach_The_Castle():
     UI.DisplayTitle("Approaching the Castle")
     slow_print("\n".join(textwrap.wrap(
@@ -946,6 +990,7 @@ def Approach_The_Castle():
         Access_Inventory()
         Approach_The_Castle()
 
+# Spider and skeleton fight introduction
 def SpiderAndSkeletonIntro():
     UI.DisplayTitle("Spider and Skeleton Fight")
     slow_print("\n".join(textwrap.wrap(
@@ -959,6 +1004,7 @@ def SpiderAndSkeletonIntro():
     }
     UI.SelectAction(actions)
 
+# Spider and skeleton fight logic
 def SpiderAndSkeletonFight():
     Combat.SpiderAndSkeletonFight()
     UI.DisplayTitle("After the Battle")
@@ -971,6 +1017,7 @@ def SpiderAndSkeletonFight():
     }
     UI.SelectAction(actions)
 
+# Continue deeper into the castle
 def ContinueCastle():
     UI.DisplayTitle("Deeper into the Castle")
     slow_print("\n".join(textwrap.wrap(
@@ -986,6 +1033,7 @@ def ContinueCastle():
         Access_Inventory()
         ContinueCastle()
 
+# Goblin fight logic
 def GoblinFight():
     Combat.GoblinFight()
     UI.DisplayTitle("After the Goblin Fight")
@@ -998,6 +1046,7 @@ def GoblinFight():
     }
     UI.SelectAction(actions)
 
+# Continue deeper into the castle after goblins
 def ContinueCastle2():
     UI.DisplayTitle("Deeper into the Castle")
     slow_print("\n".join(textwrap.wrap(
@@ -1013,10 +1062,12 @@ def ContinueCastle2():
         Access_Inventory()
         ContinueCastle2()
     
+# Take the treasure and proceed to dragon fight
 def TakeTreasure():
     Combat.LootRoom()
     DragonFightIntro()
     
+# Dragon fight introduction
 def DragonFightIntro():
     UI.DisplayTitle("The Dragon")
     slow_print("\n".join(textwrap.wrap(
@@ -1029,10 +1080,12 @@ def DragonFightIntro():
     }
     UI.SelectAction(actions)
 
+# Dragon fight logic
 def DragonFight():
     Combat.DragonFight()
     Winner()
 
+# End of game victory screen
 def Winner():
     UI.DisplayTitle("Victory!")
     slow_print("\n".join(textwrap.wrap(

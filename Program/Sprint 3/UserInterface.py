@@ -1,25 +1,31 @@
 import pyfiglet
 
+# Display the main title screen using ASCII art
 def DisplayTitleScreen():
     print(pyfiglet.figlet_format("Beyond the Horizon"))
 
+# Print a separator line for formatting
 def DisplaySeparator():
     print("+"+"-"*140+"+")
 
+# Display a formatted title with separators
 def DisplayTitle(title):
     DisplaySeparator()
     print(f"|{title.center(140)}|")
     DisplaySeparator()
 
+# Display a formatted subtitle with separators
 def DisplaySubTitle(title):
     DisplaySeparator()
     print(f"| {title:140} |")
     DisplaySeparator()
     
+# Present a list of actions to the user and handle their selection
 def SelectAction(actions):
     while True:
         DisplaySeparator()
         index = 1
+        # Determine if actions is a dict or list
         if isinstance(actions, dict):
             options = list(actions.keys())
         elif isinstance(actions, list):
@@ -27,6 +33,7 @@ def SelectAction(actions):
         else:
             return
 
+        # Print available options
         for option in options:
             print(index, "-", option)
             index += 1
@@ -34,6 +41,7 @@ def SelectAction(actions):
         try:
             option_input = input("Selection: ")
             option_index = int(option_input)
+            # Validate input range
             if option_index < 1 or option_index > len(options):
                 print("Invalid selection. Please enter a number between 1 and", len(options))
                 continue
@@ -41,41 +49,48 @@ def SelectAction(actions):
             action = options[option_index - 1]
             print("You have selected:", action)
             print("")
-            actions[action]()
+            actions[action]()  # Call the selected action
             return action
         except ValueError:
             print("Invalid input. Please enter a valid number.")
             continue
 
+# Display a dialog with a title and description
 def DisplayDialog(title, description):
     DisplayTitle(title)
     print(description)
 
+# Display a scene with a title, story, and actions
 def DisplayScene(title, story, actions):
     DisplayDialog(title, story)
     selection=SelectAction(actions)
 
+# Display a scene with an event between two descriptions
 def DisplaySceneWithEvent(title, pre_description, event, post_description, actions):
     DisplayDialog(title,pre_description)
     event()
     DisplayDialog(title,post_description)
     selection=SelectAction(actions)
 
+# Display character stats with colored health and mana bars
 def DisplayStats(name, type, health, max_health, mana, max_mana):
     print(f"| Name: {name} |")
     print(f"| Type: {type} |")
     
+    # Calculate bonus health if any
     if health > max_health:
         bonus_health = health - max_health
         health = max_health
     else:
         bonus_health = 0
 
+    # Create health bar
     bar_count = int(health * 10 / max_health)
     bars = "█" * bar_count
     dashes = "█" * (10 - bar_count)
     health_bar = f"\033[31m{bars}\033[0m{dashes}"
 
+    # Add bonus health to bar if present
     if bonus_health > 0:
         bonus_bar_count = int(bonus_health * 10 / max_health)
         bonus_bars = "\033[33m" + "█" * bonus_bar_count + "\033[0m"
@@ -84,12 +99,14 @@ def DisplayStats(name, type, health, max_health, mana, max_mana):
     else:
         print(f"| Health❤️ : [{health_bar}]({health}/{max_health})|")
 
+    # Calculate bonus mana if any
     if mana > max_mana:
         bonus_mana = mana - max_mana
         mana = max_mana
     else:
         bonus_mana = 0
 
+    # Handle case where character has no mana
     if max_mana == 0:
         mana_bar = "No mana available"
         print(f"| Mana ✨ : {mana_bar} |")
@@ -101,6 +118,7 @@ def DisplayStats(name, type, health, max_health, mana, max_mana):
         dashes = "█" * (10 - bar_count)
         mana_bar = f"\033[94m{bars}\033[0m{dashes}"
 
+    # Add bonus mana to bar if present
     if bonus_mana > 0:
         bonus_bar_count = int(bonus_mana * 10 / max_mana)
         bonus_bars = "\033[96m" + "█" * bonus_bar_count + "\033[0m"
@@ -110,6 +128,7 @@ def DisplayStats(name, type, health, max_health, mana, max_mana):
         print(f"| Mana ✨ : [{mana_bar}]({mana}/{max_mana})|")
     print("=======================================")
 
+# Display the player's inventory
 def DisplayInventory(inventory):
     print("=======================================")
     print("Inventory")
@@ -118,6 +137,7 @@ def DisplayInventory(inventory):
         print(f"| {item} |")
     print("=======================================")
 
+# Display a game over message in ASCII art
 def DisplayGameOver():
     print("")
     print("")
@@ -128,6 +148,3 @@ def DisplayGameOver():
 ░░╚██╔╝░░██║░░██║██║░░░██║  ██║░░██║██║██╔══╝░░██║░░██║
 ░░░██║░░░╚█████╔╝╚██████╔╝  ██████╔╝██║███████╗██████╔╝
 ░░░╚═╝░░░░╚════╝░░╚═════╝░  ╚═════╝░╚═╝╚══════╝╚═════╝░""")
-
-
-

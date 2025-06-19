@@ -1,8 +1,10 @@
 import UserInterface as UI
 import random
 
+# Ask the player for their name at the start
 HeroName = input("Enter your name: ")
 
+# Utility function for selecting an item from a list with a prompt
 def select_dialog(prompt,items):
     while(True):
         index=1
@@ -22,45 +24,54 @@ def select_dialog(prompt,items):
             print("Stop being an idiot!!!")
             continue
 
+# Simulate rolling a dice with a given number of sides
 def roll_dice(prompt, sides):
     result = random.randrange(1,sides)
     print(f"{prompt}: {result}")
     return result
 
+# Base class for all items
 class Item(object):
     def __init__(self,name,value):
         self.name=name
         self.value=value
 
+# Healing item that restores health
 class Healing(Item):
     def __init__(self,name,value,amount):
         super().__init__(name,value)
         self.amount=amount
-    
+
+# Healing item that restores mana
 class ManaHealing(Item):
     def __init__(self,name,value,amount):
         super().__init__(name,value)
         self.amount=amount
 
+# Gold item, represents currency
 class Gold(Item):
     def __init__(self,value):
         super().__init__("Bag of Gold",value)
         self.value=value
 
+# Weapon item, can be equipped and used for attacks
 class Weapon(Item):
     def __init__(self,name,value,damage):
         super().__init__(name,value)
         self.resistance=0
         self.damage=damage
 
+# Armour item, can be equipped for resistance
 class Armour(Item):
     def __init__(self,name,value,resistance,location):
         super().__init__(name,value)
         self.resistance=resistance
         self.location=location
 
+# Base class for all characters (player and NPCs)
 class Character(object):
     def __init__(self,name,type,health,max_mana=0):
+        # Equipped items: Head, Torso, Legs, Weapon
         self.equipped={
             'Head': Armour("Nothing",0,0,"Head"),
             'Torso': Armour("Nothing",0,0,"Torso"),
@@ -74,20 +85,25 @@ class Character(object):
         self.mana= max_mana
         self.max_mana = max_mana
 
+    # Display character stats
     def stats(self):
         UI.DisplayStats(self.name,self.type, self.health,self.max_health,self.mana,self.max_mana)
 
+    # Get inventory, optionally filtered by item type
     def get_inventory(self, item_type=None):
         if item_type is None:
             return self.inventory
         return [item for item in self.inventory if isinstance(item, item_type)]
-    
+
+    # Display inventory items
     def DisplayInventory(self):
         self.show_item_list(f"{self.name} inventory:",self.inventory)
 
+    # Get all armour items in inventory
     def get_inventory_armour(self):
         return self.get_inventory(Armour)
-    
+
+    # Use an item by name (healing or mana potions)
     def use_item(self, item_name):
         for item in self.inventory:
             if item.name == item_name:
@@ -102,7 +118,7 @@ class Character(object):
                     if self.mana > self.max_mana:
                         self.mana = self.max_mana
                     print(f"{self.name} used {item.name} and restored {item.amount} Mana.")
-                    self.stats()        
+                    self.stats()
                     self.remove(item.name)
                     return True
                 else:
@@ -111,6 +127,7 @@ class Character(object):
         print(f"{item_name} not found in inventory.")
         return False
 
+    # Equip an item (weapon or armour)
     def equip(self,item):
         if isinstance(item,Weapon):
             self.equipped["Weapon"]=item
@@ -120,6 +137,7 @@ class Character(object):
             self.heal(item.amount)
             self.remove(item.name)
 
+    # Unequip an item
     def unequip(self,item):
         for location in self.equipped.keys():
             if item==self.equipped[location]:
@@ -128,6 +146,7 @@ class Character(object):
                 elif isinstance(item,Armour):
                     self.equipped[location]=Armour("Nothing",0,0,location)
 
+    # Get the gold item from inventory, or create one if not present
     def get_gold(self):
         for destination_item in self.inventory:
             if isinstance(destination_item,Gold):
@@ -136,16 +155,19 @@ class Character(object):
         self.inventory.append(destination_item)
         return destination_item
 
+    # Add gold from another item
     def add_gold(self,source_item):
         gold=self.get_gold()
         gold.value+=source_item.value
 
+    # Add an item to inventory (special handling for gold)
     def give(self,item):
         if isinstance(item,Gold):
             self.add_gold(item)
         else:
             self.inventory.append(item)
-        
+
+    # Remove an item from inventory by name
     def remove(self,target_item_name):
         for inventory_item in self.inventory:
             if target_item_name == inventory_item.name:
@@ -153,15 +175,18 @@ class Character(object):
                 self.inventory.remove(inventory_item)
                 return
 
+    # Add and equip an item
     def give_and_equip(self,item):
         self.give(item)
         self.equip(item)
 
+    # Show currently equipped items
     def show_equiped(self):
         UI.DisplayTitle("Equiped items")
         for location in self.equipped.keys():
             print(f"{location:10}:",self.equipped[location].name)
 
+    # Dialog for equipping, using, or unequipping items
     def equip_dialog(self):
         while True:
             response = input("Do you want to equip, use, or unequip an item? (Equip / Use / No): ").strip().lower()
@@ -189,14 +214,16 @@ class Character(object):
                     self.use_item(item.name)
                 else:
                     print(f"{item.name} cannot be used directly.")
-    
+
             elif response == 'no':
                 print("No items equipped.")
                 return
-            
+
             else:
                 print("Invalid option. Please choose 'Equip', 'Use', or 'No'.")
                 continue
+
+    # Show a list of items with a title
     def show_item_list(self,title,list):
         UI.DisplayTitle(title)
         index=1
@@ -204,12 +231,14 @@ class Character(object):
             print(f"{index:2} - {item.name:20} {item.value:5} 🪙")
             index+=1
 
+    # Calculate total resistance from equipped armour
     def get_total_resistance(self):
         resistance=0
         for location in self.equipped.keys():
             resistance=resistance+self.equipped[location].resistance
         return resistance
-        
+
+    # Attack another character
     def attack(self,target):
         sides=6
         attack_roll = roll_dice(f"{self.name}'s Attack Roll", sides)
@@ -221,17 +250,19 @@ class Character(object):
             armoured_attack_damage = 0
         target.health -= armoured_attack_damage
 
+    # Heal the character
     def heal(self,amount):
         self.health = self.health + amount
         if self.health > self.max_health:
             self.health=self.max_health
 
+    # Check if the character is dead
     def is_dead(self):
         if self.health<=0:
-
             return True
         return False
 
+    # Sell an item to another character
     def sell(self,target):
         item=select_dialog(f"{self.name} selling to {target.name}",self.inventory)
         if isinstance(item,Gold):
@@ -247,9 +278,11 @@ class Character(object):
         else:
             print(f"{target.name} does not have enough gold")
 
+    # Buy an item from another character
     def buy(self,target):
         target.sell(self)
 
+    # Trade loop between two characters
     def trade(self,target):
         while(True):
             self.DisplayInventory()
@@ -274,6 +307,7 @@ class Character(object):
                 print("Please select a valid option")
                 continue
 
+    # Fight loop between player and enemies
     def fight(self,enemies):
         UI.DisplayTitle("A fight has started")
         round=1
@@ -299,6 +333,7 @@ class Character(object):
                     UI.DisplayGameOver()
                     exit(0)
 
+# Player character class
 class Hero(Character):
     def __init__(self,name):
         super().__init__(name,"Human", 100, max_mana=50)
@@ -307,6 +342,7 @@ class Hero(Character):
         self.give(ManaHealing("Lvl 1 Mana Potion",5,10))
         self.give(Healing("Lvl 1 Health Potion",5,10))
 
+# Enemy and NPC classes
 class Goblin(Character):
     def __init__(self,name):
         super().__init__(name,"Goblin", random.randrange(40,50), max_mana=0)
@@ -339,11 +375,11 @@ class Blacksmith(Character):
         self.give(Weapon("Lvl 1 Metal Sword",13, 20))
         self.give(Weapon("Lvl 2 Metal Sword",16, 25))
         self.give(Weapon("Lvl 3 Metal Sword",19, 30))
-        
+
         self.give(Weapon("Lvl 1 Diamond Sword",23, 35))
         self.give(Weapon("Lvl 2 Diamond Sword",26, 40))
         self.give(Weapon("Lvl 3 Diamond Sword",29, 45))
-        
+
         self.give(Armour("Leather chestplate",5,2 ,'Torso'))
         self.give(Armour("Leather helmet",2,1 ,'Head'))
 
@@ -352,7 +388,7 @@ class Blacksmith(Character):
 
         self.give(Armour("Diamond chestplate",25,20 ,'Torso'))
         self.give(Armour("Diamond helmet",22,15 ,'Head'))
-        
+
 class Skeleton(Character):
     def __init__(self,name):
         super().__init__(name,"Skeleton", random.randrange(40,60), max_mana=0)
@@ -383,6 +419,7 @@ class CultistBoss(Character):
         super().__init__(name, "Cultist", 150, max_mana=0)
         self.give_and_equip(Weapon("Magic Hands",0,100))
 
+# Fight and loot room functions for game events
 def GoblinFight():
     Player.fight([Goblin("Brzt")])
     Player.give(Weapon("Club",1,random.randrange(5,10)))
@@ -457,6 +494,7 @@ def Cultistfight():
 def CultistFinalBoss():
     Player.fight([CultistBoss("Scolrang")])
 
+# Create main player and NPCs
 Player = Hero(HeroName)
 Blacksmith_Bob = Blacksmith("Blacksmith Bob")
 Merchant_Charlie = Merchant("Merchant Charlie")
