@@ -768,3 +768,17 @@ I believe that my sprint 3 is completed pretty well, with an addition of a tradi
     pyfiglet
 
 ## Sprint 4
+
+### Design
+
+**Identify Potential Enhancements**
+- My inventory system is proberbly going to get revampted, making it look a lot nicer. 
+- The storyline is going to get completed, with multiple battle scenes and another village (secrets included).
+- Combat may get a few tweeks such as the Equip, Use, No might get changed into 1, 2 and 3
+
+**Explain the Integration Process**
+- To revamp the inventory system, I would seperate each item into its own list. Gold, Armour, Weapon, Potion and Other. Then it would print out one by one, making it look nicer.
+- Adding on the storyline would be to add new scene functions like new battles, encounters, bosses and villages.
+- Instead of it asking for Equip, Use and No, I would make it ask 1, 2 and 3. It would still function the same.
+
+**Updated Diagrams**
